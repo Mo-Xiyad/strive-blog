@@ -13,28 +13,55 @@ const NewBlogPost = () => {
       value: 2,
       unit: "minute",
     },
+    comments: [],
     author: {
       name: "AUTHOR AVATAR NAME",
-      avatar: "AUTHOR AVATAR LINK",
+      avatar: "https://cdn.fakercloud.com/avatars/mhesslow_128.jpg",
     },
     content: "",
   });
 
+  const [postImg, setPostImg] = useState(null);
+
   const postBlogData = async () => {
     try {
+      let response = await fetch(`http://localhost:3001/posts/`, {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        // console.log(response.ok);
+        let data = await response.json();
+
+        // upload image
+        try {
+          let formDataImg = new FormData();
+          formDataImg.append("cover", postImg);
+          const res = await fetch(
+            `http://localhost:3001/posts/${data._id}/blogPostCover`,
+            {
+              method: "POST",
+              body: formDataImg,
+            }
+          );
+          if (res.ok) {
+            console.log("img post success");
+          }
+        } catch (error) {}
+      }
     } catch (error) {
       console.log(error);
     }
   };
-  // handleChange(value) {
-  //   this.setState({ text: value });
-  // }
 
   useEffect(() => {}, []);
 
   return (
     <Container className="new-blog-container">
-      <Form className="mt-5">
+      <div className="mt-5">
         <Form.Group controlId="blog-form" className="mt-3">
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -68,20 +95,24 @@ const NewBlogPost = () => {
             className="new-blog-content"
           />
         </Form.Group>
+        <Form.Control
+          type="file"
+          onChange={(e) => setPostImg(e.target.files[0])}
+        />
         <Form.Group className="d-flex mt-3 justify-content-end">
           <Button type="reset" size="lg" variant="outline-dark">
             Reset
           </Button>
           <Button
-            type="submit"
             size="lg"
             variant="dark"
             style={{ marginLeft: "1em" }}
+            onClick={() => postBlogData()}
           >
             Submit
           </Button>
         </Form.Group>
-      </Form>
+      </div>
     </Container>
   );
 };

@@ -6,6 +6,7 @@ import BlogLike from "../../components/likes/BlogLike";
 import posts from "../../data/posts.json";
 import "./styles.css";
 import { useState, useEffect } from "react";
+import BlogComment from "../../components/blog/blog-comment";
 // import { useParams } from "react-router-dom";
 
 const Blog = ({ match }) => {
@@ -64,7 +65,7 @@ const Blog = ({ match }) => {
               </div>
               <div className="blog-details-info">
                 <div>{blog.createdAt}</div>
-                {/* <div>{`${blog.readTime.value} ${blog.readTime.unit} read`}</div> */}
+                <div>{`${blog.readTime.value} ${blog.readTime.unit} read`}</div>
                 <div style={{ marginTop: 20 }}>
                   <BlogLike defaultLikes={["123"]} onChange={console.log} />
                 </div>
@@ -72,6 +73,7 @@ const Blog = ({ match }) => {
             </div>
 
             <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+            <BlogComment id={blog._id} />
           </Container>
         }
       </div>
