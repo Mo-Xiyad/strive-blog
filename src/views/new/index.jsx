@@ -3,8 +3,12 @@ import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { Container, Form, Button } from "react-bootstrap";
 import "./styles.css";
+import { useLocation, useHistory, withRouter } from "react-router-dom";
 
 const NewBlogPost = () => {
+  const location = useLocation();
+  const history = useHistory();
+
   const [formData, setFormData] = useState({
     category: "ARTICLE CATEGORY",
     title: "",
@@ -49,6 +53,9 @@ const NewBlogPost = () => {
           );
           if (res.ok) {
             console.log("img post success");
+
+            history.push("/");
+            // history.go();
           }
         } catch (error) {}
       }
@@ -57,7 +64,10 @@ const NewBlogPost = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(history);
+    console.log(location);
+  }, []);
 
   return (
     <Container className="new-blog-container">
@@ -117,4 +127,4 @@ const NewBlogPost = () => {
   );
 };
 
-export default NewBlogPost;
+export default withRouter(NewBlogPost);
