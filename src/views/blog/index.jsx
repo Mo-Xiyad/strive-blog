@@ -7,6 +7,8 @@ import posts from "../../data/posts.json";
 import "./styles.css";
 import { useState, useEffect } from "react";
 import BlogComment from "../../components/blog/blog-comment";
+import CommentForm from "../../components/blog/blog-commentArea";
+
 // import { useParams } from "react-router-dom";
 
 const Blog = ({ match }) => {
@@ -73,6 +75,8 @@ const Blog = ({ match }) => {
             </div>
 
             <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+
+            <CommentForm id={blog._id} />
             <BlogComment id={blog._id} />
           </Container>
         }

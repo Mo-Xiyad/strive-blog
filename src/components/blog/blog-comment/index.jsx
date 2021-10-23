@@ -42,7 +42,7 @@ const BlogComment = ({ id }) => {
 
   useEffect(() => {
     getComments();
-  }, [comments]);
+  }, []);
 
   return (
     <>
@@ -50,7 +50,7 @@ const BlogComment = ({ id }) => {
         {comments &&
           author &&
           comments.map((comment) => (
-            <Row>
+            <Row key={comment._id}>
               <Col md={8}>
                 <div className="media g-mb-30 media-comment">
                   <Image
@@ -89,6 +89,20 @@ const BlogComment = ({ id }) => {
                       </div>
                     </div>
                     <p>{comment.text}</p>
+                    <div className="d-flex flex-row fs-12">
+                      <div className="like p-2 cursor">
+                        <i className="fa fa-thumbs-o-up" />
+                        <span className="ml-1">Like</span>
+                      </div>
+                      <div className="like p-2 cursor">
+                        <i className="fa fa-commenting-o" />
+                        <span className="ml-1">Comment</span>
+                      </div>
+                      <div className="like p-2 cursor">
+                        <i className="fa fa-share" />
+                        <span className="ml-1">Share</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Col>

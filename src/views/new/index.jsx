@@ -37,7 +37,7 @@ const NewBlogPost = () => {
         },
       });
       if (response.ok) {
-        // console.log(response.ok);
+        console.log(response);
         let data = await response.json();
 
         // upload image
