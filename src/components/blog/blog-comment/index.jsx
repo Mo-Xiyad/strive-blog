@@ -6,6 +6,9 @@ import "./styles.css";
 const BlogComment = ({ id }) => {
   const [comments, setComments] = useState(null);
   const [author, setAuthor] = useState(null);
+
+  const [showDelete, setShowDelete] = useState({ display: "none" });
+
   const getComments = async () => {
     try {
       const response = await fetch(
@@ -35,6 +38,8 @@ const BlogComment = ({ id }) => {
     }
   };
 
+  const editComment = async (commeId) => {};
+
   useEffect(() => {
     getComments();
   }, [comments]);
@@ -53,7 +58,15 @@ const BlogComment = ({ id }) => {
                     src="https://source.unsplash.com/random/200x200?sig=1"
                     alt="Image Description"
                   />
-                  <div className="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                  <div
+                    className="media-body u-shadow-v18 g-bg-secondary g-pa-30"
+                    onMouseLeave={(e) => {
+                      setShowDelete({ display: "none" });
+                    }}
+                    onMouseOver={(e) => {
+                      setShowDelete({ display: "block", display: "inline" });
+                    }}
+                  >
                     <div className="d-flex justify-content-between">
                       <div className="g-mb-15 mb-3">
                         <h5 className="h5 g-color-gray-dark-v1 mb-0">
@@ -64,41 +77,18 @@ const BlogComment = ({ id }) => {
                         </span>
                       </div>
                       <div className="g-color-gray-dark-v4">
-                        <span onClick={(e) => deleteComment(comment._id)}>
+                        <span
+                          style={showDelete}
+                          onClick={(e) => deleteComment(comment._id)}
+                        >
                           <i className="fa fa-trash g-pos-rel g-top-1 g-mr-3 px-3" />
+                        </span>
+                        <span>
+                          <i className="fa fa-edit g-pos-rel g-top-1 g-mr-3 px-3" />
                         </span>
                       </div>
                     </div>
                     <p>{comment.text}</p>
-                    <ul className="list-inline d-sm-flex my-0">
-                      <li className="list-inline-item g-mr-20">
-                        <a
-                          className="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
-                          href="#!"
-                        >
-                          <i className="fa fa-thumbs-up g-pos-rel g-top-1 g-mr-3" />
-                          178
-                        </a>
-                      </li>
-                      <li className="list-inline-item g-mr-20">
-                        <a
-                          className="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
-                          href="#!"
-                        >
-                          <i className="fa fa-thumbs-down g-pos-rel g-top-1 g-mr-3" />
-                          34
-                        </a>
-                      </li>
-                      <li className="list-inline-item ml-auto">
-                        <a
-                          className="u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
-                          href="#!"
-                        >
-                          <i className="fa fa-reply g-pos-rel g-top-1 g-mr-3" />
-                          Reply
-                        </a>
-                      </li>
-                    </ul>
                   </div>
                 </div>
               </Col>
