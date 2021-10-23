@@ -23,9 +23,21 @@ const BlogComment = ({ id }) => {
     }
   };
 
+  const deleteComment = async (commeId) => {
+    const response = await fetch(
+      `http://localhost:3001/posts/${id}/comments/${commeId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (response.ok) {
+      console.log("DELETE");
+    }
+  };
+
   useEffect(() => {
     getComments();
-  }, []);
+  }, [comments]);
 
   return (
     <>
@@ -42,13 +54,20 @@ const BlogComment = ({ id }) => {
                     alt="Image Description"
                   />
                   <div className="media-body u-shadow-v18 g-bg-secondary g-pa-30">
-                    <div className="g-mb-15 mb-3">
-                      <h5 className="h5 g-color-gray-dark-v1 mb-0">
-                        {author.name}
-                      </h5>
-                      <span className="g-color-gray-dark-v4 g-font-size-12">
-                        5 days ago
-                      </span>
+                    <div className="d-flex justify-content-between">
+                      <div className="g-mb-15 mb-3">
+                        <h5 className="h5 g-color-gray-dark-v1 mb-0">
+                          {author.name}
+                        </h5>
+                        <span className="g-color-gray-dark-v4 g-font-size-12">
+                          5 days ago
+                        </span>
+                      </div>
+                      <div className="g-color-gray-dark-v4">
+                        <span onClick={(e) => deleteComment(comment._id)}>
+                          <i className="fa fa-trash g-pos-rel g-top-1 g-mr-3 px-3" />
+                        </span>
+                      </div>
                     </div>
                     <p>{comment.text}</p>
                     <ul className="list-inline d-sm-flex my-0">
