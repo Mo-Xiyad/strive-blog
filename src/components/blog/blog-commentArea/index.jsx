@@ -23,6 +23,7 @@ const CommentForm = ({ id }) => {
         // console.log(response.ok);
         let data = await response.json();
         console.log(response);
+        setComment({ text: "" });
       } else {
         console.log(response);
       }

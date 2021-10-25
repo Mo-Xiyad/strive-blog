@@ -6,6 +6,7 @@ import "./styles.css";
 const BlogComment = ({ id }) => {
   const [comments, setComments] = useState(null);
   const [author, setAuthor] = useState(null);
+  const [currentId, setCurrentId] = useState(null);
 
   const [showDelete, setShowDelete] = useState({ display: "none" });
 
@@ -42,7 +43,7 @@ const BlogComment = ({ id }) => {
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [comments]);
 
   return (
     <>
@@ -50,7 +51,13 @@ const BlogComment = ({ id }) => {
         {comments &&
           author &&
           comments.map((comment) => (
-            <Row key={comment._id}>
+            <Row
+              key={comment._id}
+              onMouseOver={(e) => setCurrentId(console.log(comment._id))}
+              onMouseLeave={(e) => {
+                setCurrentId(null);
+              }}
+            >
               <Col md={8}>
                 <div className="media g-mb-30 media-comment">
                   <Image
@@ -77,12 +84,14 @@ const BlogComment = ({ id }) => {
                         </span>
                       </div>
                       <div className="g-color-gray-dark-v4">
-                        <span
-                          style={showDelete}
-                          onClick={(e) => deleteComment(comment._id)}
-                        >
-                          <i className="fa fa-trash g-pos-rel g-top-1 g-mr-3 px-3" />
-                        </span>
+                        {comments._id == currentId && (
+                          <span
+                            style={showDelete}
+                            onClick={(e) => deleteComment(comment._id)}
+                          >
+                            <i className="fa fa-trash g-pos-rel g-top-1 g-mr-3 px-3" />
+                          </span>
+                        )}
                         <span>
                           <i className="fa fa-edit g-pos-rel g-top-1 g-mr-3 px-3" />
                         </span>
