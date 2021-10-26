@@ -12,8 +12,9 @@ const BlogComment = ({ id }) => {
 
   const getComments = async () => {
     try {
-      const apiUrl = process.env.REACT_APP_BE_URL;
-      const response = await fetch(`${apiUrl}/posts/${id}/comments`);
+      const response = await fetch(
+        `http://localhost:3001/posts/${id}/comments`
+      );
 
       if (response.ok) {
         let data = await response.json();
@@ -27,19 +28,14 @@ const BlogComment = ({ id }) => {
   };
 
   const deleteComment = async (commeId) => {
-    try {
-      const apiUrl = process.env.REACT_APP_BE_URL;
-      const response = await fetch(
-        `${apiUrl}/posts/${id}/comments/${commeId}`,
-        {
-          method: "DELETE",
-        }
-      );
-      if (response.ok) {
-        console.log("DELETE");
+    const response = await fetch(
+      `http://localhost:3001/posts/${id}/comments/${commeId}`,
+      {
+        method: "DELETE",
       }
-    } catch (error) {
-      console.log(error);
+    );
+    if (response.ok) {
+      console.log("DELETE");
     }
   };
 
