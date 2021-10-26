@@ -33,11 +33,9 @@ const Blog = ({ match }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("----- inside------");
-        console.log(data);
+
         setBlog(data);
         setLoading(false);
-        console.log(match);
       }
     } catch (error) {
       console.log(error);

@@ -40,7 +40,7 @@ const BlogComment = ({ id }) => {
 
   useEffect(() => {
     getComments();
-  }, [comments]);
+  }, []);
 
   return (
     <>
@@ -59,7 +59,7 @@ const BlogComment = ({ id }) => {
                 <div className="media g-mb-30 media-comment">
                   <Image
                     className="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15"
-                    src="https://source.unsplash.com/random/200x200?sig=1"
+                    src={author.avatar}
                     alt="Image Description"
                   />
                   <div
