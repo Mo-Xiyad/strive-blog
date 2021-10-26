@@ -10,9 +10,8 @@ const CommentForm = ({ id }) => {
 
   const postComments = async () => {
     try {
-      // "http://localhost:3001/posts/sktwi19x8kv1ixzqf/comments";
-      console.log(id);
-      let response = await fetch(`http://localhost:3001/posts/${id}/comments`, {
+      const apiUrl = process.env.REACT_APP_BE_URL;
+      const response = await fetch(`${apiUrl}/posts/${id}/comments`, {
         method: "POST",
         body: JSON.stringify(comment),
         headers: {

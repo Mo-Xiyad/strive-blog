@@ -28,10 +28,8 @@ const Blog = ({ match }) => {
       redirect: "follow",
     };
     try {
-      const response = await fetch(
-        `http://localhost:3001/posts/${id}`,
-        requestOptions
-      );
+      const apiUrl = process.env.REACT_APP_BE_URL;
+      const response = await fetch(`${apiUrl}/posts/${id}`, requestOptions);
 
       if (response.ok) {
         const data = await response.json();
