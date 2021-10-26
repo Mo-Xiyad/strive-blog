@@ -10,11 +10,11 @@ const BlogComment = ({ id }) => {
 
   const [showDelete, setShowDelete] = useState({ display: "none" });
 
+  const apiUrl = process.env.REACT_APP_BE_URL;
+
   const getComments = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3001/posts/${id}/comments`
-      );
+      const response = await fetch(`${apiUrl}/posts/${id}/comments`);
 
       if (response.ok) {
         let data = await response.json();
@@ -28,12 +28,9 @@ const BlogComment = ({ id }) => {
   };
 
   const deleteComment = async (commeId) => {
-    const response = await fetch(
-      `http://localhost:3001/posts/${id}/comments/${commeId}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`${apiUrl}/posts/${id}/comments/${commeId}`, {
+      method: "DELETE",
+    });
     if (response.ok) {
       console.log("DELETE");
     }

@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 const BlogList = () => {
   const [posts, setPost] = useState(null);
 
+  const apiUrl = process.env.REACT_APP_BE_URL;
+
   const getData = async () => {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -16,10 +18,7 @@ const BlogList = () => {
       headers: myHeaders,
     };
     try {
-      const response = await fetch(
-        "http://localhost:3001/posts/",
-        requestOptions
-      );
+      const response = await fetch(`${apiUrl}/posts/`, requestOptions);
 
       if (response.ok) {
         const data = await response.json();

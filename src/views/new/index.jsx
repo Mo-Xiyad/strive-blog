@@ -26,10 +26,11 @@ const NewBlogPost = () => {
   });
 
   const [postImg, setPostImg] = useState(null);
+  const apiUrl = process.env.REACT_APP_BE_URL;
 
   const postBlogData = async () => {
     try {
-      let response = await fetch(`http://localhost:3001/posts/`, {
+      let response = await fetch(`${apiUrl}/posts/`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
@@ -44,13 +45,10 @@ const NewBlogPost = () => {
         try {
           let formDataImg = new FormData();
           formDataImg.append("cover", postImg);
-          const res = await fetch(
-            `http://localhost:3001/posts/${data._id}/blogPostCover`,
-            {
-              method: "POST",
-              body: formDataImg,
-            }
-          );
+          const res = await fetch(`${apiUrl}/posts/${data._id}/blogPostCover`, {
+            method: "POST",
+            body: formDataImg,
+          });
           if (res.ok) {
             console.log("img post success");
 
