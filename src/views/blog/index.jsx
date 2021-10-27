@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Image } from "react-bootstrap";
+import { Button, Container, Image } from "react-bootstrap";
 import { withRouter } from "react-router";
 import BlogAuthor from "../../components/blog/blog-author";
 import BlogLike from "../../components/likes/BlogLike";
@@ -16,6 +16,7 @@ const Blog = ({ match }) => {
   const [loading, setLoading] = useState(true);
 
   const id = match.params._id;
+  const apiUrl = process.env.REACT_APP_BE_URL;
 
   const getData = async (id) => {
     const myHeaders = new Headers();
@@ -28,7 +29,6 @@ const Blog = ({ match }) => {
       redirect: "follow",
     };
     try {
-      const apiUrl = process.env.REACT_APP_BE_URL;
       const response = await fetch(`${apiUrl}/posts/${id}`, requestOptions);
 
       if (response.ok) {
@@ -46,7 +46,6 @@ const Blog = ({ match }) => {
     console.log(match);
     getData(id);
   }, []);
-
   if (loading) {
     return <div>loading</div>;
   } else {
@@ -55,6 +54,12 @@ const Blog = ({ match }) => {
         {
           <Container>
             <Image className="blog-details-cover" src={blog.cover} fluid />
+            <a
+              className="btn-primary btn-sm mt-5 pt-5"
+              href={`${apiUrl}/posts/${blog._id}/downloadPostPDF`}
+            >
+              download pdf
+            </a>
             <h1 className="blog-details-title">{blog.title}</h1>
 
             <div className="blog-details-container">
