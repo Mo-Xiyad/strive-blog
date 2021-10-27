@@ -25,6 +25,7 @@ const BlogComment = ({ id }) => {
         let data = await response.json();
         setComments(data.comments.reverse());
         setAuthor(data.author);
+        setPosted(false);
       }
     } catch (error) {
       console.log(error);
@@ -57,6 +58,7 @@ const BlogComment = ({ id }) => {
     });
     if (response.ok) {
       console.log("DELETED");
+      setPosted(true);
     }
   };
 
