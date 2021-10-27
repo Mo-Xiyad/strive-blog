@@ -46,7 +46,7 @@ const NewBlogPost = () => {
           let formDataImg = new FormData();
           formDataImg.append("cover", postImg);
           const res = await fetch(`${apiUrl}/posts/${data._id}/blogPostCover`, {
-            method: "POST",
+            method: "PUT",
             body: formDataImg,
           });
           if (res.ok) {
