@@ -22,27 +22,27 @@ const BlogList = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("----- inside------");
-        console.log(data);
+        console.log("----- HOME PAGE ------");
+        // console.log(data);
         setPost(data);
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const some = () => {
-    console.log("heloooo");
-  };
+
   useEffect(() => {
-    some();
     getData();
   }, []);
   return (
     <Row>
       {posts &&
         posts.map((post) => (
-          <Col md={4} style={{ marginBottom: 50 }}>
-            <BlogItem key={post.title} {...post} />
+          <Col key={post._id} md={4} style={{ marginBottom: 50 }}>
+            <div className="d-flex justify-content-end">
+              <i className="fa fa-trash" />
+            </div>
+            <BlogItem {...post} />
           </Col>
         ))}
     </Row>

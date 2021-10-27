@@ -7,7 +7,6 @@ import posts from "../../data/posts.json";
 import "./styles.css";
 import { useState, useEffect } from "react";
 import BlogComment from "../../components/blog/blog-comment";
-import CommentForm from "../../components/blog/blog-commentArea";
 
 // import { useParams } from "react-router-dom";
 
@@ -19,17 +18,8 @@ const Blog = ({ match }) => {
   const apiUrl = process.env.REACT_APP_BE_URL;
 
   const getData = async (id) => {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const requestOptions = {
-      method: "GET",
-      headers: myHeaders,
-      // body: raw,
-      redirect: "follow",
-    };
     try {
-      const response = await fetch(`${apiUrl}/posts/${id}`, requestOptions);
+      const response = await fetch(`${apiUrl}/posts/${id}`);
 
       if (response.ok) {
         const data = await response.json();
@@ -43,7 +33,6 @@ const Blog = ({ match }) => {
   };
 
   useEffect(() => {
-    console.log(match);
     getData(id);
   }, []);
   if (loading) {
@@ -77,7 +66,6 @@ const Blog = ({ match }) => {
 
             <div dangerouslySetInnerHTML={{ __html: blog.content }}></div>
 
-            <CommentForm id={blog._id} />
             <BlogComment id={blog._id} />
           </Container>
         }

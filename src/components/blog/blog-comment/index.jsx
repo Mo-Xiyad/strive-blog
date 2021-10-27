@@ -8,6 +8,11 @@ const BlogComment = ({ id }) => {
   const [author, setAuthor] = useState(null);
   const [currentId, setCurrentId] = useState(null);
 
+  const [posted, setPosted] = useState(false);
+  const [comment, setComment] = useState({
+    text: "",
+  });
+
   const [showDelete, setShowDelete] = useState({ display: "none" });
 
   const apiUrl = process.env.REACT_APP_BE_URL;
@@ -18,9 +23,28 @@ const BlogComment = ({ id }) => {
 
       if (response.ok) {
         let data = await response.json();
-        setComments(data.comments);
+        setComments(data.comments.reverse());
         setAuthor(data.author);
-        // console.log(data.comments);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const postComments = async () => {
+    try {
+      let response = await fetch(`${apiUrl}/posts/${id}/comments`, {
+        method: "POST",
+        body: JSON.stringify(comment),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        setPosted(true);
+        setComment({ text: "" });
+      } else {
+        console.log(response);
       }
     } catch (error) {
       console.log(error);
@@ -32,7 +56,7 @@ const BlogComment = ({ id }) => {
       method: "DELETE",
     });
     if (response.ok) {
-      console.log("DELETE");
+      console.log("DELETED");
     }
   };
 
@@ -40,11 +64,43 @@ const BlogComment = ({ id }) => {
 
   useEffect(() => {
     getComments();
-  }, []);
+  }, [posted]);
 
   return (
     <>
       <div className="container">
+        <div className="panel">
+          <div className="panel-body">
+            <textarea
+              className="form-control"
+              type="textarea"
+              rows={2}
+              placeholder="What are you thinking?"
+              value={comment.text}
+              onChange={(e) => setComment({ ...comment, text: e.target.value })}
+            />
+            <div className="mar-top clearfix">
+              <button
+                className="btn btn-sm btn-dark pull-right subtim-btn"
+                onClick={(e) => postComments(e)}
+              >
+                <i className="fa fa-pencil fa-fw" /> Share
+              </button>
+              <a
+                className="btn btn-trans btn-icon fa fa-video-camera add-tooltip"
+                href="#"
+              />
+              <a
+                className="btn btn-trans btn-icon fa fa-camera add-tooltip"
+                href="#"
+              />
+              <a
+                className="btn btn-trans btn-icon fa fa-file add-tooltip"
+                href="#"
+              />
+            </div>
+          </div>
+        </div>
         {comments &&
           author &&
           comments.map((comment) => (
