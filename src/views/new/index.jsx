@@ -19,7 +19,7 @@ const NewBlogPost = () => {
     },
     comments: [],
     author: {
-      name: "AUTHOR AVATAR NAME",
+      name: "Author of the post",
       avatar: "https://cdn.fakercloud.com/avatars/mhesslow_128.jpg",
       email: "mjayrox20117@docy.site",
     },
@@ -52,20 +52,7 @@ const NewBlogPost = () => {
           });
           if (res.ok) {
             console.log("img post success");
-            try {
-              const response = await fetch(
-                `${apiUrl}/posts/${data._id}/newPost`,
-                {
-                  method: "POST",
-                }
-              );
-              if (response.ok) {
-                history.push("/");
-              }
-            } catch (error) {
-              console.log(error);
-            }
-            // history.go();
+            history.push("/");
           }
         } catch (error) {
           console.log(error);
