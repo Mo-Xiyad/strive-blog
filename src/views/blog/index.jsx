@@ -20,12 +20,23 @@ const Blog = ({ match }) => {
   const getData = async (id) => {
     try {
       const response = await fetch(`${apiUrl}/posts/${id}`);
+      // const { accessToken } = JSON.parse(localStorage.getItem("TOKENS"));
+
+      // const response = await fetch(`${apiUrl}/posts/${id}`, {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // });
 
       if (response.ok) {
         const data = await response.json();
 
         setBlog(data);
         setLoading(false);
+      } else {
+        // tru to refresth token........
+        //if token refresh is ok.....
+        // if not, then it is a real error
       }
     } catch (error) {
       console.log(error);
