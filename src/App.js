@@ -4,44 +4,35 @@ import Footer from "./components/footer";
 import Home from "./views/home";
 import Blog from "./views/blog";
 import NewBlogPost from "./views/new";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Login from "./views/login/Login";
+import useAuthGuard from "./hooks/useAuthGuard";
+
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [authorisedUser, setAuthorisedUser] = useState();
-  const [accessToken, setAccessToken] = useState();
-  const [refreshToken, setRefreshToken] = useState();
+  useAuthGuard();
+
   const { isLoggedIn } = useSelector((state) => state.loggedInOrNot);
-  // useEffect(() => {
-  //   console.log(accessToken);
-  //   console.log(loggedInOrNot);
-  // }, [accessToken]);
   return (
     <div className="App">
-      {!isLoggedIn ? (
+      {/* {!isLoggedIn ? (
         <BrowserRouter>
-          <Route
-            path="/"
-            exact
-            render={(props) => (
-              <Login
-                {...props}
-                setAccessToken={setAccessToken}
-                setRefreshToken={setRefreshToken}
-              />
-            )}
-          />
+          <Route path="/" exact render={(props) => <Login {...props} />} />
         </BrowserRouter>
-      ) : (
-        <BrowserRouter>
-          <NavBar />
-          <Route path="/" exact component={Home} />
-          <Route path="/posts/:_id" exact component={Blog} />
-          <Route path="/new" exact component={NewBlogPost} />
-          <Footer />
-        </BrowserRouter>
-      )}
+      ) : ( */}
+
+      <NavBar />
+      <Routes>
+        <Route path="/" exact element={<Home />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/posts/:_id" exact element={<Blog />} />
+        <Route path="/new" exact element={<NewBlogPost />} />
+      </Routes>
+      <Footer />
+
+      {/* )} */}
     </div>
   );
 }

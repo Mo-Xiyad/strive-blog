@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Container, Image } from "react-bootstrap";
-import { withRouter } from "react-router";
+// import { withRouter } from "react-router";
 import BlogAuthor from "../../components/blog/blog-author";
 import BlogLike from "../../components/likes/BlogLike";
 import posts from "../../data/posts.json";
@@ -8,13 +8,13 @@ import "./styles.css";
 import { useState, useEffect } from "react";
 import BlogComment from "../../components/blog/blog-comment";
 
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Blog = ({ match }) => {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const id = match.params._id;
+  const params = useParams();
+  const { _id: id } = params;
   const apiUrl = process.env.REACT_APP_BE_URL;
 
   const getData = async (id) => {
@@ -85,4 +85,4 @@ const Blog = ({ match }) => {
   }
 };
 
-export default withRouter(Blog);
+export default Blog;

@@ -9,10 +9,25 @@ import {
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import "./styles.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { checkLoggedInUser } from "../../redux/actions";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+  const params = new URLSearchParams(window.location.search);
+  const refToken = params.get("accessToken");
+
+  const logOut = async () => {
+    try {
+      // localStorage.removeItem("TOKENS");
+      // localStorage.removeItem("ACCESS_TOKEN");
+      window.localStorage.clear();
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const dispatch = useDispatch();
   const apiUrl = process.env.REACT_APP_BE_URL;
   return (
@@ -52,7 +67,13 @@ const NavBar = () => {
             <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
             <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
           </DropdownButton>
-          <Button onClick={() => dispatch(checkLoggedInUser(false))}>
+          <Button
+            className="btn btn-danger mx-2"
+            onClick={() => {
+              dispatch(checkLoggedInUser(false));
+              logOut();
+            }}
+          >
             sign Out
           </Button>
         </div>

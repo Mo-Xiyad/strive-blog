@@ -1,12 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useSelector, useDispatch } from "react-redux";
 import "./styles.css";
 import { checkLoggedInUser } from "../../redux/actions";
+import localStorage from "redux-persist/es/storage";
+import { useNavigate } from "react-router-dom";
+import Typed from "typed.js";
 
-const Login = ({ setAccessToken, setRefreshToken }) => {
+const Login = () => {
+  const navigate = useNavigate();
+  // Create Ref element.
+  const typedText = useRef(null);
+
+  useEffect(() => {
+    const typed = new Typed(typedText.current, {
+      strings: [
+        "<h1>Welcome To </h1>",
+        "<h4><strong>Strive</strong> Blog With</h4>",
+        "<h5>Authentication &times; &copy;</h5>",
+      ], // Strings to display
+
+      // Speed settings, try diffrent values untill you get good results
+      startDelay: 100,
+      typeSpeed: 100,
+      backSpeed: 100,
+      backDelay: 100,
+      smartBackspace: true,
+      loop: true,
+      showCursor: true,
+      cursorChar: "|",
+    });
+
+    // Destropying;
+    return () => {
+      typed.destroy();
+    };
+  }, []);
+
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -14,11 +46,6 @@ const Login = ({ setAccessToken, setRefreshToken }) => {
 
   const { isLoggedIn } = useSelector((state) => state.loggedInOrNot);
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(isLoggedIn);
-    // console.log(loginData.email);
-    // console.log(loginData.password);
-  }, [loginData.email]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,14 +61,10 @@ const Login = ({ setAccessToken, setRefreshToken }) => {
       console.log(response);
       if (response.ok) {
         const data = await response.json();
-        // console.log(`Here is the USERDATA`, data);
-        setAccessToken(data.accessToken);
-        setRefreshToken(data.refreshToken);
-
         localStorage.setItem("TOKENS", JSON.stringify(data));
-
+        navigate("/");
         dispatch(checkLoggedInUser(true));
-        // console.log(data);
+
         return data;
       } else {
         console.log(`Ooops we got an error while Login`);
@@ -54,6 +77,7 @@ const Login = ({ setAccessToken, setRefreshToken }) => {
   return (
     <div className="container login-form">
       {" "}
+      <span ref={typedText}></span>
       <h5 className="head-label">Sing In</h5>
       <Form onSubmit={(event) => handleSubmit(event)}>
         <Form.Group controlId="formBasicEmail">
@@ -93,6 +117,11 @@ const Login = ({ setAccessToken, setRefreshToken }) => {
           Sign In
         </Button>
       </Form>
+      <a href="http://localhost:3001/usersFromDb/googleLogin">
+        <Button className="mt-4 mx-3" variant="warning" type="button">
+          Login with Google
+        </Button>
+      </a>
     </div>
   );
 };
