@@ -22,6 +22,9 @@ const NavBar = () => {
     try {
       // localStorage.removeItem("TOKENS");
       // localStorage.removeItem("ACCESS_TOKEN");
+      // const response = await fetch(`http://localhost:3001/usersFromDb/logout`);
+      // if (response.ok) {
+      // }
       window.localStorage.clear();
       navigate("/login");
     } catch (error) {
