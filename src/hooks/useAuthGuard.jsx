@@ -4,8 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 const useAuthGuard = () => {
   const navigate = useNavigate();
   const params = new URLSearchParams(window.location.search);
-  console.log(params.get("accessToken"));
-  console.log(params);
+  // console.log(params.get("accessToken"));
+  // console.log(params);
 
   useEffect(() => {
     const accessToken =
@@ -15,8 +15,11 @@ const useAuthGuard = () => {
     if (!accessToken) {
       navigate("/login");
     } else if (params.get("accessToken")) {
-      localStorage.setItem("ACCESS_TOKEN", accessToken);
-      localStorage.setItem("REFRESH_TOKEN", refreshToken);
+      let accessToken = params.get("accessToken");
+      localStorage.setItem(
+        "TOKENS",
+        JSON.stringify({ accessToken, refreshToken })
+      );
       navigate("/");
     }
   }, []);

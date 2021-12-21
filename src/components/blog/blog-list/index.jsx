@@ -13,7 +13,7 @@ const BlogList = () => {
 
   const getData = async () => {
     const tokens = JSON.parse(localStorage.getItem("TOKENS"));
-    console.log("TOKEN WHEN IM TRYING TO GET", tokens.accessToken);
+    // console.log("TOKEN WHEN IM TRYING TO GET", tokens.accessToken);
     try {
       const response = await fetch(`${apiUrl}/posts/`, {
         method: "GET",
@@ -25,7 +25,7 @@ const BlogList = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("----- HOME PAGE ------");
-        // console.log(data);
+        console.log(data.post);
         setPost(data.post);
         setNewData(false);
       } else if (response.status === 401) {
@@ -38,7 +38,7 @@ const BlogList = () => {
 
   const deletePost = async (postId) => {
     const tokens = JSON.parse(localStorage.getItem("TOKENS"));
-    console.log("TOKEN WHEN IM TRYING TO GET", tokens.accessToken);
+    // console.log("TOKEN WHEN IM TRYING TO GET", tokens.accessToken);
     try {
       const response = await fetch(`${apiUrl}/posts/${postId}`, {
         method: "DELETE",

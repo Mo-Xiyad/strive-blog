@@ -5,11 +5,14 @@ import { Container, Form, Button } from "react-bootstrap";
 import "./styles.css";
 import { useNavigate, useParams } from "react-router-dom";
 import useAuthGuard from "../../hooks/useAuthGuard";
+import { useSelector } from "react-redux";
 
 const NewBlogPost = () => {
   useAuthGuard();
   const navigate = useNavigate();
-
+  const user = useSelector((state) => {
+    return state.loggedInOrNot.user;
+  });
   const [formData, setFormData] = useState({
     category: "ARTICLE CATEGORY",
     title: "",
@@ -18,8 +21,7 @@ const NewBlogPost = () => {
       value: 2,
       unit: "minute",
     },
-    comments: [],
-    author: "61c11e824cbe74394971fc45",
+    author: user && user._id,
     content: "",
   });
 
@@ -44,8 +46,8 @@ const NewBlogPost = () => {
         try {
           let formDataImg = new FormData();
           formDataImg.append("cover", postImg);
-          console.log(formDataImg);
-          console.log(postImg);
+          // console.log(formDataImg);
+          // console.log(postImg);
           const res = await fetch(`${apiUrl}/posts/${data._id}/uploadImage`, {
             method: "PUT",
             body: formDataImg,

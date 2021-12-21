@@ -10,11 +10,37 @@ import Login from "./views/login/Login";
 import useAuthGuard from "./hooks/useAuthGuard";
 
 import { useNavigate } from "react-router-dom";
+import { LOGGED_IN_USERS_DATA } from "./redux/actions";
 
 function App() {
   useAuthGuard();
+  const apiUrl = process.env.REACT_APP_BE_URL;
+  const tokens = JSON.parse(localStorage.getItem("TOKENS"));
+  const dispatch = useDispatch();
+  const getCurrentUser = async () => {
+    try {
+      let response = await fetch(`${apiUrl}/users/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
+        },
+      });
+      if (response.ok) {
+        let data = await response.json();
+        console.log(data);
+        dispatch({ type: LOGGED_IN_USERS_DATA, payload: data });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const { isLoggedIn } = useSelector((state) => state.loggedInOrNot);
+
+  const __accessToken = !!tokens && tokens.accessToken;
+  useEffect(() => {
+    getCurrentUser();
+  }, [__accessToken]);
 
   useEffect(() => {
     console.log(isLoggedIn);
