@@ -1,9 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
+import useAuthGuard from "../../../hooks/useAuthGuard";
 import "./styles.css";
 
 const BlogComment = ({ id }) => {
+  useAuthGuard();
   const [comments, setComments] = useState(null);
   const [author, setAuthor] = useState(null);
   const [currentId, setCurrentId] = useState(null);

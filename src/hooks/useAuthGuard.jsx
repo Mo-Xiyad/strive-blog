@@ -10,11 +10,13 @@ const useAuthGuard = () => {
   useEffect(() => {
     const accessToken =
       localStorage.getItem("TOKENS") || params.get("accessToken"); // "TOKENS" are set when the user logs in
+    const refreshToken = params.get("refreshToken"); // "TOKENS" are set when the user logs in
 
     if (!accessToken) {
       navigate("/login");
     } else if (params.get("accessToken")) {
       localStorage.setItem("ACCESS_TOKEN", accessToken);
+      localStorage.setItem("REFRESH_TOKEN", refreshToken);
       navigate("/");
     }
   }, []);

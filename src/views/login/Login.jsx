@@ -51,7 +51,7 @@ const Login = () => {
     e.preventDefault();
     try {
       console.log(JSON.stringify(loginData));
-      const response = await fetch("http://localhost:3001/usersFromDb/login", {
+      const response = await fetch("http://localhost:3001/users/login", {
         method: "POST",
         body: JSON.stringify(loginData),
         headers: {
@@ -117,7 +117,7 @@ const Login = () => {
           Sign In
         </Button>
       </Form>
-      <a href="http://localhost:3001/usersFromDb/googleLogin">
+      <a href="http://localhost:3001/users/googleLogin">
         <Button className="mt-4 mx-3" variant="warning" type="button">
           Login with Google
         </Button>

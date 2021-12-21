@@ -15,23 +15,24 @@ function App() {
   useAuthGuard();
 
   const { isLoggedIn } = useSelector((state) => state.loggedInOrNot);
+
+  useEffect(() => {
+    console.log(isLoggedIn);
+    console.log("isLoggedIn");
+  }, []);
+
   return (
     <div className="App">
-      {/* {!isLoggedIn ? (
-        <BrowserRouter>
-          <Route path="/" exact render={(props) => <Login {...props} />} />
-        </BrowserRouter>
-      ) : ( */}
-
-      <NavBar />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/posts/:_id" exact element={<Blog />} />
-        <Route path="/new" exact element={<NewBlogPost />} />
-      </Routes>
-      <Footer />
-
+      <div>
+        <NavBar />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/posts/:_id" exact element={<Blog />} />
+          <Route path="/new" exact element={<NewBlogPost />} />
+        </Routes>
+        <Footer />
+      </div>
       {/* )} */}
     </div>
   );
