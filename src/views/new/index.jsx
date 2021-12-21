@@ -4,8 +4,10 @@ import ReactQuill from "react-quill";
 import { Container, Form, Button } from "react-bootstrap";
 import "./styles.css";
 import { useNavigate, useParams } from "react-router-dom";
+import useAuthGuard from "../../hooks/useAuthGuard";
 
 const NewBlogPost = () => {
+  useAuthGuard();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -17,41 +19,45 @@ const NewBlogPost = () => {
       unit: "minute",
     },
     comments: [],
-    author: {
-      name: "Author of the post",
-      avatar: "https://cdn.fakercloud.com/avatars/mhesslow_128.jpg",
-      email: "mjayrox20117@docy.site",
-    },
+    author: "61c11e824cbe74394971fc45",
     content: "",
   });
 
   const [postImg, setPostImg] = useState(null);
   const apiUrl = process.env.REACT_APP_BE_URL;
-
   const postBlogData = async () => {
+    const tokens = JSON.parse(localStorage.getItem("TOKENS"));
     try {
-      let response = await fetch(`${apiUrl}/posts/`, {
+      let response = await fetch(`${apiUrl}/posts`, {
         method: "POST",
         body: JSON.stringify(formData),
         headers: {
+          Authorization: `Bearer ${tokens.accessToken}`,
           "Content-Type": "application/json",
         },
       });
       if (response.ok) {
-        console.log(response);
+        // console.log(response);
         let data = await response.json();
-
         // upload image
+        // console.log(data);
         try {
           let formDataImg = new FormData();
           formDataImg.append("cover", postImg);
-          const res = await fetch(`${apiUrl}/posts/${data._id}/blogPostCover`, {
+          console.log(formDataImg);
+          console.log(postImg);
+          const res = await fetch(`${apiUrl}/posts/${data._id}/uploadImage`, {
             method: "PUT",
             body: formDataImg,
+            headers: {
+              Authorization: `Bearer ${tokens.accessToken}`,
+            },
           });
           if (res.ok) {
             console.log("img post success");
             navigate("/");
+          } else {
+            console.log("img post upload failed", res);
           }
         } catch (error) {
           console.log(error);
@@ -100,7 +106,9 @@ const NewBlogPost = () => {
         </Form.Group>
         <Form.Control
           type="file"
-          onChange={(e) => setPostImg(e.target.files[0])}
+          onChange={(e) => {
+            setPostImg(e.target.files[0]);
+          }}
         />
         <Form.Group className="d-flex mt-3 justify-content-end">
           <Button type="reset" size="lg" variant="outline-dark">
