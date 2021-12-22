@@ -6,8 +6,9 @@ const usersTokensReducer = (state = initialState.tokens, action) => {
   switch (action.type) {
     case GET_USER_TOKENS:
       return {
-        ...state,
-        isLoggedIn: action.payload,
+        accessToken: action.payload.accessToken,
+        refreshToken: action.payload.refreshToken,
+        isLoggedIn: true,
       };
     default:
       return state;

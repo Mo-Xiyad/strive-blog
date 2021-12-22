@@ -25,7 +25,7 @@ const BlogList = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("----- HOME PAGE ------");
-        console.log(data.post);
+        // console.log(data.post);
         setPost(data.post);
         setNewData(false);
       } else if (response.status === 401) {

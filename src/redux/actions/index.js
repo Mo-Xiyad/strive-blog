@@ -9,3 +9,11 @@ export const checkLoggedInUser = (data) => ({
   // the payload is any other piece of info required by the reducer to understand
   // what we want to do with this action
 });
+export const setLoggedInUserData = (data) => ({
+  type: LOGGED_IN_USERS_DATA,
+  payload: data,
+});
+export const setTokens = (tokens) => ({
+  type: GET_USER_TOKENS,
+  payload: tokens,
+});

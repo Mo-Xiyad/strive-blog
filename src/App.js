@@ -17,6 +17,7 @@ function App() {
   const apiUrl = process.env.REACT_APP_BE_URL;
   const tokens = JSON.parse(localStorage.getItem("TOKENS"));
   const dispatch = useDispatch();
+
   const getCurrentUser = async () => {
     try {
       let response = await fetch(`${apiUrl}/users/me`, {
@@ -27,7 +28,7 @@ function App() {
       });
       if (response.ok) {
         let data = await response.json();
-        console.log(data);
+        // console.log(data);
         dispatch({ type: LOGGED_IN_USERS_DATA, payload: data });
       }
     } catch (error) {
@@ -35,17 +36,18 @@ function App() {
     }
   };
 
-  const { isLoggedIn } = useSelector((state) => state.loggedInOrNot);
-
   const __accessToken = !!tokens && tokens.accessToken;
   useEffect(() => {
     getCurrentUser();
   }, [__accessToken]);
 
+  const userTokens = useSelector((state) => state.tokens);
+  const __userTokens = !!userTokens && userTokens.accessToken;
   useEffect(() => {
-    console.log(isLoggedIn);
+    console.log(userTokens.accessToken);
+    console.log(userTokens.refreshToken);
     console.log("isLoggedIn");
-  }, []);
+  }, [__userTokens]);
 
   return (
     <div className="App">

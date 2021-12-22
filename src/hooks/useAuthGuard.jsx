@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { setTokens } from "../redux/actions";
+import { useSelector, useDispatch } from "react-redux";
 
 const useAuthGuard = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const params = new URLSearchParams(window.location.search);
   // console.log(params.get("accessToken"));
   // console.log(params);
@@ -16,6 +20,8 @@ const useAuthGuard = () => {
       navigate("/login");
     } else if (params.get("accessToken")) {
       let accessToken = params.get("accessToken");
+
+      dispatch(setTokens({ accessToken, refreshToken }));
       localStorage.setItem(
         "TOKENS",
         JSON.stringify({ accessToken, refreshToken })

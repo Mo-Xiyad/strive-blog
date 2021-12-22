@@ -11,10 +11,9 @@ const workingMiddleware =
 
 export const initialState = {
   tokens: {
-    // accessToken: "",
-    // refreshToken: "",
+    accessToken: "",
+    refreshToken: "",
     isLoggedIn: false,
-    // isError: false,
   },
   loggedInOrNot: {
     isLoggedIn: false,

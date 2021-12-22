@@ -52,6 +52,7 @@ const Blog = () => {
   useEffect(() => {
     getData(id);
   }, []);
+
   if (loading) {
     return <div>loading</div>;
   } else {
