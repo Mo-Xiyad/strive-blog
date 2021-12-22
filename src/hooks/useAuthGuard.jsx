@@ -21,7 +21,8 @@ const useAuthGuard = () => {
     } else if (params.get("accessToken")) {
       let accessToken = params.get("accessToken");
 
-      dispatch(setTokens({ accessToken, refreshToken }));
+      dispatch(setTokens({ accessToken, refreshToken })); // adding tokens to the redux store
+
       localStorage.setItem(
         "TOKENS",
         JSON.stringify({ accessToken, refreshToken })
